@@ -5,6 +5,7 @@ import Loader from './shared/Loader';
 export default class App extends Component {
 
   state = {
+    username: 'johann',
     data: [],
     devices: [],
     assetsLoaded: false,
@@ -22,7 +23,7 @@ export default class App extends Component {
       'quicksand-medium': require('./assets/fonts/Quicksand-Medium.ttf'),
       'quicksand-semibold': require('./assets/fonts/Quicksand-SemiBold.ttf'),
     });
-    await fetch('https://appdodoam.herokuapp.com/NhanTuServer.php')
+    await fetch('https://eztreecare.herokuapp.com/NhanTuServer.php?username=' + this.state.username)
       .then(response => response.json())
       .then(responseJson => {
         this.setState({ data: responseJson })
@@ -33,11 +34,11 @@ export default class App extends Component {
       .catch(error => {
         console.error(error);
       });
-    await fetch('https://appdodoam.herokuapp.com/ShowDevices.php')
+    await fetch('https://eztreecare.herokuapp.com/ShowDevices.php?username=' + this.state.username)
       .then(response => response.json())
       .then(responseJson => {
         this.setState({ devices: responseJson })
-        if(responseJson[1].device_status == 'on') {
+        if(responseJson[0].device_status == 'on') {
           this.setState({ device2On: true });
         }
       })
@@ -47,7 +48,7 @@ export default class App extends Component {
     this.setState({ assetsLoaded: true });
     this.interval = setInterval(
       () => {
-        fetch('https://appdodoam.herokuapp.com/NhanTuServer.php')
+        fetch('https://eztreecare.herokuapp.com/NhanTuServer.php?username=' + this.state.username)
           .then(response => response.json())
           .then(responseJson => {
             this.setState({ data: responseJson })
@@ -55,7 +56,7 @@ export default class App extends Component {
           .catch(error => {
             console.error(error);
           });
-        fetch('https://appdodoam.herokuapp.com/ShowDevices.php')
+        fetch('https://eztreecare.herokuapp.com/ShowDevicesStatus.php?username=' + this.state.username)
           .then(response => response.json())
           .then(responseJson => {
             this.setState({ devices: responseJson })
@@ -73,20 +74,20 @@ export default class App extends Component {
     switch (number) {
       case 1:
         if (!this.state.device1On) {
-          request.open('GET', 'http://appdodoam.herokuapp.com/UpdateDevicesStatus.php?device_name=device1&device_status=on');
+          request.open('GET', 'http://eztreecare.herokuapp.com/UpdateDevicesStatus.php?device_name=device1&device_status=on&username=' + this.state.username);
           request.send();
         } else {
-          request.open('GET', 'http://appdodoam.herokuapp.com/UpdateDevicesStatus.php?device_name=device1&device_status=off');
+          request.open('GET', 'http://eztreecare.herokuapp.com/UpdateDevicesStatus.php?device_name=device1&device_status=off&username=' + this.state.username);
           request.send();
         }
         this.setState({ device1On: !this.state.device1On });
         break;
       case 2:
         if (!this.state.device2On) {
-          request.open('GET', 'http://appdodoam.herokuapp.com/UpdateDevicesStatus.php?device_name=device2&device_status=on');
+          request.open('GET', 'http://eztreecare.herokuapp.com/UpdateDevicesStatus.php?device_name=device2&device_status=on&username=' + this.state.username);
           request.send();
         } else {
-          request.open('GET', 'http://appdodoam.herokuapp.com/UpdateDevicesStatus.php?device_name=device2&device_status=off');
+          request.open('GET', 'http://eztreecare.herokuapp.com/UpdateDevicesStatus.php?device_name=device2&device_status=off&username=' + this.state.username);
           request.send();
         }
         this.setState({ device2On: !this.state.device2On })
