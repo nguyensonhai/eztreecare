@@ -6,7 +6,7 @@
     "icon": "./assets/icon.png",
     "version": "1.0.0",
     "ios": {
-      "bundleIdentifier": "com.eztech.veztreecare",
+      "bundleIdentifier": "com.eztech.eztreecare",
       "buildNumber": "1.0.0"
     },
     "splash": {
@@ -14,11 +14,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "android": {
       "package": "com.eztech.eztreecare",
       "versionCode": 1
